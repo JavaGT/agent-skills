@@ -11,6 +11,7 @@ Browse them at **https://skills.javagrant.ac.nz**.
 | Skill | What it does |
 | --- | --- |
 | [`github-pages-porkbun-skill`](skills/github-pages-porkbun-skill) | Deploy a static site to GitHub Pages with a Porkbun-managed custom domain, end to end including the HTTPS cert. Includes the clear-and-re-add fix for a cert stuck at `null`. Also covers general Porkbun DNS record CRUD (list / create any type / delete) via its `porkbun.py` wrapper. |
+| [`first-principles-skill`](skills/first-principles-skill) | Evaluate a problem, design, or decision from first principles — decompose into irreducible truths and reason upward, instead of justifying by analogy or convention. For foundational / high-impact choices where "best practice" may not fit your constraints. |
 
 ## External Skills (symlinked from upstream repos)
 
@@ -45,6 +46,9 @@ git clone --recurse-submodules https://github.com/JavaGT/agent-skills
 | --- | --- |
 | `grill-me` | [mattpocock/skills](https://github.com/mattpocock/skills) `→ skills/productivity/grill-me` |
 | `grill-with-docs` | [mattpocock/skills](https://github.com/mattpocock/skills) `→ skills/engineering/grill-with-docs` |
+| `improve-codebase-architecture` | [mattpocock/skills](https://github.com/mattpocock/skills) `→ skills/engineering/improve-codebase-architecture` |
+| `using-git-worktrees` | [obra/superpowers](https://github.com/obra/superpowers) `→ skills/using-git-worktrees` |
+| `systematic-debugging` | [obra/superpowers](https://github.com/obra/superpowers) `→ skills/systematic-debugging` |
 
 ## Install
 

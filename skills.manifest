@@ -9,5 +9,10 @@
 # The sync script reads this manifest to know what to symlink.
 
 # Matt Pocock's skills
-mattpocock-skills:skills/productivity/grill-me        grill-me
-mattpocock-skills:skills/engineering/grill-with-docs  grill-with-docs
+mattpocock-skills:skills/productivity/grill-me                 grill-me
+mattpocock-skills:skills/engineering/grill-with-docs            grill-with-docs
+mattpocock-skills:skills/engineering/improve-codebase-architecture improve-codebase-architecture
+
+# Obra superpowers
+obra-superpowers:skills/using-git-worktrees             using-git-worktrees
+obra-superpowers:skills/systematic-debugging            systematic-debugging

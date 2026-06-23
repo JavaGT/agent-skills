@@ -18,9 +18,11 @@ Skills come from two places:
 ```
 ~/Code/agent-skills/                # this repo (git)
 ├── skills/                         # owned skills (published to Pages)
-│   └── github-pages-porkbun-skill/ # deploy to Pages + general Porkbun DNS CRUD
+│   ├── github-pages-porkbun-skill/ # deploy to Pages + general Porkbun DNS CRUD
+│   └── first-principles-skill/    # first-principles reasoning for design decisions
 ├── external/                       # git submodules (NOT published)
-│   └── mattpocock-skills/          # submodule → github.com/mattpocock/skills
+│   ├── mattpocock-skills/          # submodule → github.com/mattpocock/skills
+│   └── obra-superpowers/           # submodule → github.com/obra/superpowers
 ├── skills.manifest                 # declares which upstream skills → symlink
 ├── scripts/sync-skills.sh          # pulls submodules + refreshes symlinks
 ├── index.html                      # published site
