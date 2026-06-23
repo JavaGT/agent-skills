@@ -84,16 +84,10 @@
   <h2>github-pages-porkbun-skill <span class="tag">deploy</span><span class="tag">dns</span><span class="tag">cert</span></h2>
   <div class="skill">
     <p>Deploy a static site to GitHub Pages with a custom domain, where DNS is managed by Porkbun — end to end, including the HTTPS certificate. Bakes in the non-obvious fix for the most common failure: the cert stays <code>null</code> forever because GitHub never starts ACME issuance until you clear and re-add the custom domain via the Pages API.</p>
-    <p class="desc">Includes helper scripts (<code>porkbun.py</code>, <code>pages.py</code>, <code>deploy.py</code>) and deep-dive references on the Porkbun API, the Pages cert lifecycle, and a troubleshooting decision tree.</p>
+    <p class="desc">Also covers general Porkbun DNS record CRUD (list / create any type: A, AAAA, CNAME, MX, TXT / delete) via its <code>porkbun.py</code> wrapper. Includes <code>pages.py</code> and <code>deploy.py</code> and deep-dive references on the Porkbun API, the Pages cert lifecycle, and a troubleshooting decision tree.</p>
     <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/github-pages-porkbun-skill">skills/github-pages-porkbun-skill</a></p>
     <pre><code>git clone https://github.com/JavaGT/agent-skills ~/.config/opencode/skills/agent-skills-repo
 # then symlink or copy skills/github-pages-porkbun-skill into place</code></pre>
-  </div>
-
-  <h2>porkbun-dns <span class="tag">dns</span></h2>
-  <div class="skill">
-    <p>Generic DNS record management on Porkbun — create, list, delete, validate. Reads credentials from <code>~/.secrets/porkbun.env</code> (<code>PORKBUN_API_KEY</code> / <code>PORKBUN_SECRET_KEY</code>). Documents the <code>secretapikey</code> field-name gotcha that breaks most integrations.</p>
-    <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/porkbun-dns">skills/porkbun-dns</a></p>
   </div>
 
   <h2>Installing</h2>

@@ -8,8 +8,9 @@ Reads credentials from ~/.secrets/porkbun.env (dotenv format):
 Subcommands:
     ping
     list-records <domain>
-    get-record <domain> CNAME <subdomain>
+    get-record <domain> <type> <name>
     create-cname <domain> <subdomain> <target> [--ttl 600]
+    create-record <domain> <name> <type> <content> [--ttl 600] [--prio N]
     delete-record <domain> <record-id>
 """
 import argparse
@@ -79,6 +80,15 @@ def main() -> int:
     p_cname.add_argument("content")
     p_cname.add_argument("--ttl", type=int, default=600)
 
+    p_rec = sub.add_parser("create-record")
+    p_rec.add_argument("domain")
+    p_rec.add_argument("name")
+    p_rec.add_argument("rtype", choices=["A", "AAAA", "CNAME", "MX", "TXT",
+                                        "NS", "SRV", "CAA", "ALIAS"])
+    p_rec.add_argument("content")
+    p_rec.add_argument("--ttl", type=int, default=600)
+    p_rec.add_argument("--prio", type=int, help="priority (MX/SRV)")
+
     p_del = sub.add_parser("delete-record")
     p_del.add_argument("domain")
     p_del.add_argument("record_id")
@@ -110,6 +120,18 @@ def main() -> int:
             "name": args.name, "type": "CNAME",
             "content": args.content, "ttl": args.ttl,
         })
+        print(json.dumps(out, indent=2))
+        return 0 if out.get("status") == "SUCCESS" else 1
+
+    if args.cmd == "create-record":
+        payload = {
+            "apikey": key, "secretapikey": secret,
+            "name": args.name, "type": args.rtype,
+            "content": args.content, "ttl": args.ttl,
+        }
+        if args.prio is not None:
+            payload["prio"] = args.prio
+        out = call(f"dns/create/{args.domain}", payload)
         print(json.dumps(out, indent=2))
         return 0 if out.get("status") == "SUCCESS" else 1
 

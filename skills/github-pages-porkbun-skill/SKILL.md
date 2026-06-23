@@ -10,6 +10,7 @@ description: >-
   Encrypt cert. Includes the non-obvious fix for the most common failure: cert
   stuck at null because GitHub never started ACME issuance.
 license: MIT
+activation: /github-pages-porkbun-skill
 metadata:
   author: agent-skill-creator
   version: 1.0.0
@@ -23,6 +24,13 @@ metadata:
     - url: https://api.github.com
       name: GitHub REST API (Pages)
       type: api
+provenance:
+  maintainer: JavaGT
+  version: 1.0.0
+  created: 2026-06-23
+  source_references:
+    - https://api.porkbun.com/api/json/v3
+    - https://docs.github.com/en/rest/pages
 ---
 
 # /github-pages-porkbun-skill — Deploy a static site to GitHub Pages with a Porkbun DNS custom domain
@@ -58,9 +66,14 @@ won't provision", "add the DNS record on Porkbun".
 1. **Full deploy** — repo, `CNAME` file, `.nojekyll`, push, enable Pages, create
    Porkbun CNAME, provision cert, enable HTTPS enforcement.
 2. **DNS-only** — just add/fix the Porkbun CNAME for an existing Pages site.
-3. **Cert debugging** — the site works over HTTP but HTTPS fails, or
+3. **General Porkbun DNS CRUD** — list, create (any record type: A, AAAA,
+   CNAME, MX, TXT, NS, SRV, CAA, ALIAS), retrieve by name+type, delete. Use the
+   `porkbun.py` wrapper's `ping`/`list-records`/`get-record`/
+   `create-cname`/`create-record`/`delete-record` subcommands. This subsumes a
+   standalone DNS skill — see `references/porkbun-dns.md` for the full API.
+4. **Cert debugging** — the site works over HTTP but HTTPS fails, or
    `https_certificate` is `null` / stuck.
-4. **Mirror an existing setup** — "set up X like the working Y subdomain."
+5. **Mirror an existing setup** — "set up X like the working Y subdomain."
 
 ## Prerequisites
 
@@ -231,7 +244,8 @@ normal propagation, not a failure.
 ## Helper scripts
 
 - `scripts/porkbun.py` — Porkbun API wrapper (`ping`, `list-records`,
-  `create-cname`, `delete-record`, `get-record`). Reads credentials from
+  `get-record`, `create-cname`, `create-record` (any type, with `--prio` for
+  MX/SRV), `delete-record`). Reads credentials from
   `~/.secrets/porkbun.env` (or `PORKBUN_API_KEY`/`PORKBUN_SECRET_KEY` env vars).
 - `scripts/pages.py` — GitHub Pages wrapper (`status`, `enable`, `set-cname`,
   `clear-cname`, `force-verify` (the clear+re-add dance), `cert`, `enforce-https`).

@@ -10,8 +10,7 @@ Browse them at **https://skills.javagrant.ac.nz**.
 
 | Skill | What it does |
 | --- | --- |
-| [`github-pages-porkbun-skill`](skills/github-pages-porkbun-skill) | Deploy a static site to GitHub Pages with a Porkbun-managed custom domain, end to end including the HTTPS cert. Includes the clear-and-re-add fix for a cert stuck at `null`. |
-| [`porkbun-dns`](skills/porkbun-dns) | Generic Porkbun DNS record CRUD (create / list / delete / ping). |
+| [`github-pages-porkbun-skill`](skills/github-pages-porkbun-skill) | Deploy a static site to GitHub Pages with a Porkbun-managed custom domain, end to end including the HTTPS cert. Includes the clear-and-re-add fix for a cert stuck at `null`. Also covers general Porkbun DNS record CRUD (list / create any type / delete) via its `porkbun.py` wrapper. |
 
 ## External Skills (symlinked from upstream repos)
 

@@ -5,19 +5,24 @@
 Deploy a static site to GitHub Pages with a custom domain, where DNS is
 managed by Porkbun — end to end, including the HTTPS certificate. Covers repo
 setup, the `CNAME`/`.nojekyll` files, enabling Pages, creating the Porkbun
-CNAME, and provisioning the Let's Encrypt cert.
+CNAME, and provisioning the Let's Encrypt cert. Also handles general Porkbun
+DNS record CRUD (list / create any type / delete) via the `porkbun.py`
+wrapper — so a standalone DNS skill is not needed.
 
 ## When to activate
 
 - "deploy this static site to GitHub Pages"
 - "set up a custom domain on my Pages site"
 - "create a CNAME on Porkbun pointing at GitHub Pages"
+- "create an A / MX / TXT record on Porkbun"
+- "list / delete my Porkbun DNS records"
 - "my GitHub Pages HTTPS cert is stuck / gives an error"
 - "https_certificate is null"
 - "set up X subdomain like the working Y subdomain"
 
-Do not activate for general DNS questions unrelated to GitHub Pages, or for
-non-Porkbun providers.
+Do not activate for non-Porkbun DNS providers. For general DNS questions
+unrelated to GitHub Pages, use the `porkbun.py` wrapper's CRUD subcommands
+directly (see `references/porkbun-dns.md`).
 
 ## How to use
 
@@ -26,7 +31,8 @@ knowledge is in its "Critical insight" section — read it before debugging any
 HTTPS issue.
 
 Helper scripts live in `scripts/`:
-- `porkbun.py` — Porkbun API wrapper
+- `porkbun.py` — Porkbun API wrapper (ping, list, get, create-cname,
+  create-record for any type, delete)
 - `pages.py` — GitHub Pages API wrapper (includes the `force-verify` fix)
 - `deploy.py` — end-to-end deploy
 
