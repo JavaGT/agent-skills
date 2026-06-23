@@ -97,6 +97,13 @@
     <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/first-principles-skill">skills/first-principles-skill</a></p>
   </div>
 
+  <h2>using-git-worktrees-skill <span class="tag">workflow</span><span class="tag">git</span></h2>
+  <div class="skill">
+    <p>Create an isolated git worktree before feature work that needs isolation. Detects existing isolation first, prefers native harness tools, falls back to <code>git worktree add</code>.</p>
+    <p class="desc">Goes beyond obra/superpowers by making the worktree actually runnable (copies env/secret files, symlinks or installs deps), recording base-branch metadata, and defining the merge-back + cleanup step. The detection + native-tool flow from obra is preserved; the gaps that make worktrees painful in practice are filled.</p>
+    <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/using-git-worktrees-skill">skills/using-git-worktrees-skill</a></p>
+  </div>
+
   <h2>Installing</h2>
   <p class="desc">Skills are plain directories with a <code>SKILL.md</code>. Clone the repo and point your harness at the skill you want:</p>
   <pre><code># OpenCode / universal

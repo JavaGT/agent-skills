@@ -19,7 +19,8 @@ Skills come from two places:
 ~/Code/agent-skills/                # this repo (git)
 ├── skills/                         # owned skills (published to Pages)
 │   ├── github-pages-porkbun-skill/ # deploy to Pages + general Porkbun DNS CRUD
-│   └── first-principles-skill/    # first-principles reasoning for design decisions
+│   ├── first-principles-skill/    # first-principles reasoning for design decisions
+│   └── using-git-worktrees-skill/  # isolated workspaces (supersedes obra's)
 ├── external/                       # git submodules (NOT published)
 │   ├── mattpocock-skills/          # submodule → github.com/mattpocock/skills
 │   └── obra-superpowers/           # submodule → github.com/obra/superpowers
