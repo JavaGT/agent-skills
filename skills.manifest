@@ -1,0 +1,13 @@
+# Skills Manifest — declares upstream skills to symlink into ~/.agents/skills
+#
+# Format:  <source-path-in-submodule>  <target-name-in-skills-dir>
+#
+# source-path: relative to external/<remote>/ (i.e. inside the submodule root)
+# target-name:  the flat directory name under ~/.agents/skills/
+#
+# Lines starting with # are ignored. Blank lines are ignored.
+# The sync script reads this manifest to know what to symlink.
+
+# Matt Pocock's skills
+mattpocock-skills:skills/productivity/grill-me        grill-me
+mattpocock-skills:skills/engineering/grill-with-docs  grill-with-docs

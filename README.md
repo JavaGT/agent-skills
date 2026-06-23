@@ -6,12 +6,46 @@ directory under `skills/` with a `SKILL.md` and optional helper scripts.
 
 Browse them at **https://skills.javagrant.ac.nz**.
 
-## Skills
+## Owned Skills
 
 | Skill | What it does |
 | --- | --- |
 | [`github-pages-porkbun-skill`](skills/github-pages-porkbun-skill) | Deploy a static site to GitHub Pages with a Porkbun-managed custom domain, end to end including the HTTPS cert. Includes the clear-and-re-add fix for a cert stuck at `null`. |
 | [`porkbun-dns`](skills/porkbun-dns) | Generic Porkbun DNS record CRUD (create / list / delete / ping). |
+
+## External Skills (symlinked from upstream repos)
+
+This repo can symlink 3rd-party skills into your active skills directory
+(`~/.agents/skills/`). Upstream repos live as **git submodules** under
+`external/`. The manifest at `skills.manifest` declares which skills
+to symlink, and `scripts/sync-skills.sh` does the work.
+
+```bash
+# One-time: clone with submodules
+git clone --recurse-submodules https://github.com/JavaGT/agent-skills
+
+# Pull upstream updates + refresh symlinks
+./scripts/sync-skills.sh
+```
+
+### Adding a new external skill
+
+1. Add the upstream repo as a git submodule:
+   ```bash
+   git submodule add <url> external/<name>
+   ```
+2. Add a line to `skills.manifest`:
+   ```
+   <name>:<path-to-skill-in-submodule>  <target-name>
+   ```
+3. Run `./scripts/sync-skills.sh`
+
+### Current external skills
+
+| Skill | Source |
+| --- | --- |
+| `grill-me` | [mattpocock/skills](https://github.com/mattpocock/skills) `→ skills/productivity/grill-me` |
+| `grill-with-docs` | [mattpocock/skills](https://github.com/mattpocock/skills) `→ skills/engineering/grill-with-docs` |
 
 ## Install
 
