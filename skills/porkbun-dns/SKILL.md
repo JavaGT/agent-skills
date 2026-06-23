@@ -1,32 +1,38 @@
 ---
 name: porkbun-dns
-description: Manage DNS records on Porkbun. Use when user asks to create, update, delete, or list DNS records. Requires PORKBUN_API_KEY and PORKBUN_SECRET_KEY environment variables.
+description: Manage DNS records on Porkbun. Use when user asks to create, update, delete, or list DNS records. Reads credentials from ~/.secrets/porkbun.env (PORKBUN_API_KEY, PORKBUN_SECRET_KEY); env vars take precedence.
 ---
 
 # Porkbun DNS Management
 
-This skill uses the Porkbun API to manage DNS records. API credentials are loaded from `.env` file in the project directory.
+This skill uses the Porkbun API to manage DNS records. API credentials are
+loaded from `~/.secrets/porkbun.env` (dotenv format). The env vars
+`PORKBUN_API_KEY` and `PORKBUN_SECRET_KEY` may also be set directly by the
+harness; those take precedence.
+
+⚠️ Porkbun field name gotcha: the secret is sent as **`secretapikey`** in the
+JSON body — NOT `secret` or `secretkey`. The key is `apikey`.
 
 ## Available Commands
 
 ### List all DNS records for a domain
 ```
-!`source .env && curl -s "https://api.porkbun.com/api/json/v3/dns/retrieve/$ARGUMENTS" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\""`
+!`set -a && source ~/.secrets/porkbun.env && curl -s "https://api.porkbun.com/api/json/v3/dns/retrieve/$ARGUMENTS" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\"}"`
 ```
 
 ### Create a DNS record
 ```
-!`source .env && curl -s "https://api.porkbun.com/api/json/v3/dns/create/$ARGUMENTS" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\""`
+!`set -a && source ~/.secrets/porkbun.env && curl -s "https://api.porkbun.com/api/json/v3/dns/create/$ARGUMENTS" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\"}"`
 ```
 
 ### Delete a DNS record
 ```
-!`source .env && curl -s "https://api.porkbun.com/api/json/v3/dns/delete/$ARGUMENTS" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\""`
+!`set -a && source ~/.secrets/porkbun.env && curl -s "https://api.porkbun.com/api/json/v3/dns/delete/$ARGUMENTS" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\"}"`
 ```
 
 ### Check API credentials
 ```
-!`source .env && curl -s "https://api.porkbun.com/api/json/v3/ping" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\""`
+!`set -a && source ~/.secrets/porkbun.env && curl -s "https://api.porkbun.com/api/json/v3/ping" -H "Content-Type: application/json" -d "{\"apikey\":\"$PORKBUN_API_KEY\",\"secretapikey\":\"$PORKBUN_SECRET_KEY\"}"`
 ```
 
 ## Usage Examples
@@ -63,3 +69,13 @@ When creating records, include these fields in JSON:
 ## Domain Format
 
 Always specify the full domain (e.g., `javagrant.ac.nz`, not just `javagrant`).
+
+## Credential Setup
+
+Create `~/.secrets/porkbun.env` (chmod 600):
+```
+PORKBUN_API_KEY=pk1_...
+PORKBUN_SECRET_KEY=sk1_...
+```
+Generate keys at https://porkbun.com/account/api. Validate with the `ping`
+command above — expect `"status":"SUCCESS"` and `"credentialsValid":true`.
