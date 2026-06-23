@@ -29,14 +29,18 @@ Open the full skill: `SKILL.md` in this directory. It defines a 5-phase process:
 
 1. **Identify the problem's essence** (outcomes, not solutions)
 2. **Challenge all assumptions** (explicit + implicit, each given a verdict)
-3. **Establish ground truths** (irreducible, provable facts — prefer measured
-   data over belief)
+3. **Establish ground truths** (irreducible, provable facts — with a table of
+   what counts vs what doesn't)
 4. **Reason upward** (minimal solution → justified additions)
-5. **Validate the reasoning** (trace to ground truths, pre-mortem, define a
-   revisit trigger)
+5. **Validate the reasoning** (trace to ground truths, Inversion, Second-order,
+   Pre-mortem, Chesterton's Fence, revisit trigger)
 
 The skill ships a structured output format (Problem Essence → Assumptions
 table → Ground Truths → Reasoning Chain → Conclusion with revisit trigger).
+
+Run the **one-way vs two-way door filter first**: reversible decisions use the
+Lite version (problem essence → Five Whys → one inversion pass), not the full
+workflow.
 
 ## The one thing to remember
 
@@ -53,6 +57,14 @@ it, use it — don't rebuild the database from scratch. Add the ground truth
   breakdowns with software parallels
 - `examples/architecture-review.md` — full microservices decision review,
   including the cost of skipping the analysis
+
+## Handoff
+
+This skill owns the **decision** (what & why). Once the user confirms, structural
+changes hand off to **`architecture-delegation-skill`** (execution: research →
+slice → implement → verify), which sets up an isolated workspace via
+**`using-git-worktrees-skill`** before editing. See the Handoff section in
+`SKILL.md`.
 
 ## License
 

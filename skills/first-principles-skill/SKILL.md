@@ -39,6 +39,19 @@ answer because your constraints differ from whoever you'd be copying. It is
 **not** for every decision — reserve it for foundational, high-impact, or
 "feels off but I can't articulate why" choices (see Boundaries).
 
+**Core lens (Brooks):** every system carries *essential* complexity (inherent
+to the problem) and *accidental* complexity (introduced by tools, conventions,
+and copied patterns). First-principles thinking strips the accidental away. Ask
+of every component: is this complexity essential to the problem, or is it
+accidental — put there by a framework, a copied pattern, or a convention we
+never questioned?
+
+**One-way vs two-way door filter (Bezos) — run this first.** Reversible
+decisions (two-way doors: undo in under a day) do not deserve the full
+analysis — pick a reasonable option and reverse later. Irreversible decisions
+(one-way doors: database choice, public API shape, primary language, data model)
+do. If you're at a two-way door, use the **Lite version** (below) and move on.
+
 ## Trigger
 
 User invokes `/first-principles-skill` followed by their topic, or activates it
@@ -118,6 +131,26 @@ Identify the irreducible facts that cannot be further decomposed.
 4. **Measured reality** — replace beliefs with data where possible (load
    numbers, team size, deploy frequency, latency budget).
 
+**What counts as a ground truth:**
+
+| Category | Examples |
+|----------|----------|
+| Physical limits | speed of light, cache line size, disk seek time, network RTT |
+| Theorems | CAP, FLP impossibility, Amdahl's law, halting problem |
+| Cognitive limits | Miller's 7±2, change blindness, working memory |
+| Domain invariants | money cannot be negative; events have ordering; idempotency requires identity |
+| Written contracts / regulation | constraints documented somewhere authoritative |
+
+**What is NOT a ground truth — keep digging:**
+
+| Claim | Why it fails the test |
+|-------|----------------------|
+| "The team prefers it" | Organizational, not technical — ask *why* they prefer it |
+| "It's faster" | Faster how, against what baseline, on what workload? |
+| "It scales better" | Past what threshold, with what traffic shape? |
+| "Best practice says so" | Whose best practice, for what context? |
+| "We can't change it" | Usually "the team won't" or "the budget won't" — surface that instead |
+
 **Ground truth test:**
 - Can this be further decomposed? If yes, it's not a ground truth yet.
 - Is this provably true, not just commonly believed?
@@ -147,11 +180,37 @@ Ensure the solution is sound before committing.
    fundamental need?
 2. **Identify weak links** — where does the reasoning lean on unproven
    assumptions?
-3. **Stress test (pre-mortem)** — what would break this solution? Under what
-   conditions does it fail?
-4. **Define revisit triggers** — what future change would invalidate the
+3. **Inversion (Munger)** — "What would *guarantee* this solution fails?" List
+   the failure modes explicitly; single points of failure; whether the solution
+   avoids each one. (Invert, always invert — the cheapest way to find
+   load-bearing failure modes.)
+4. **Second-order thinking ("and then what?" ×3)** — downstream effects of this
+   decision? New coupling, complexity, maintenance burden? Does it still make
+   sense in 6 months / 2 years?
+5. **Pre-mortem (Klein)** — "It's one year from now and this decision failed
+   catastrophically. Write the post-mortem." Concrete failure narratives surface
+   risks that abstract inversion misses.
+6. **Chesterton's Fence — the final check before discarding convention.** Before
+   you throw out the conventional approach in favor of your first-principles
+   answer, prove you understand *why* the convention exists. If you can't
+   articulate it, you haven't earned the right to dismiss it. Then, and only
+   then, compare your answer against convention and state which first principle
+   supports yours.
+7. **Define revisit triggers** — what future change would invalidate the
    conclusion? State it now so the decision has an expiry condition, not a
    permanent lock-in.
+
+## Lite version (two-way-door decisions)
+
+When the full 5-phase workflow is overkill but you still want discipline —
+reversible decisions, medium stakes, ~10 minutes:
+
+1. **Problem essence** — one sentence, in outcomes not solutions.
+2. **Five Whys to root cause** — ask "why?" until you hit a non-decomposable
+   truth (or "we always do this" → cargo cult).
+3. **One inversion pass** — "what would guarantee this fails?"
+
+Captures most of the value when the stakes don't justify the full ceremony.
 
 ## Output format
 
@@ -211,6 +270,27 @@ If an existing solution is within ~2x of optimal and the team knows it, use it.
 First principles earns its keep when the conventional answer is **10x wrong**,
 not 1.5x.
 
+## Famous failures (survivorship-bias antidote)
+
+First-principles can produce disasters when applied wrong. These rebuilt from
+scratch and ignored real constraints:
+
+| Case | What went wrong |
+|------|-----------------|
+| **Apple Newton** | Reinvented handwriting recognition from scratch; market mismatch + execution gap |
+| **Google Wave** | Reimagined email; no one understood what it was *for* |
+| **Quibi** | Reinvented mobile video from "first principles of attention"; $1.75B vaporized |
+| **Segway** | Reimagined urban transport; ignored regulatory and social primitives |
+| **Theranos** | "Existing blood machines are dumb" — ignored actual physical constraints |
+| **Juicero** | Rebuilt juicing from principles; the bag could be squeezed by hand |
+
+**Heuristic:** if your rebuild ignores more than three things the convention
+handles, you probably haven't earned the right to rebuild. Common failure modes:
+domain ignorance (you don't know what you don't know about the existing
+solution), underestimating lock-in (every observable behavior has dependents you
+didn't see), and NIH syndrome dressed up as first principles without honest
+cost accounting.
+
 ## Integration with other thinking tools
 
 | Tool | When to combine | How |
@@ -245,6 +325,9 @@ not 1.5x.
 - [ ] Solution built up from ground truths only
 - [ ] Every design decision traceable to a ground truth
 - [ ] Reasoning chain documented
+- [ ] Inversion pass ("what guarantees this fails")
+- [ ] Second-order "and then what?" ×3
+- [ ] Chesterton's Fence checked (you can explain why convention exists before discarding it)
 - [ ] Trade-offs acknowledged
 - [ ] Revisit trigger defined
 
@@ -257,6 +340,36 @@ not 1.5x.
   software parallels.
 - **`examples/architecture-review.md`** — complete first-principles review of
   a microservices decision, including the cost of *not* doing the analysis.
+
+## Handoff: from decision to execution
+
+This skill owns the **decision** — the *what* and *why*. Once the user confirms
+the conclusion, structural changes should hand off to **`architecture-delegation-skill`**,
+which owns the **execution** — the *how*: research the codebase, grill the user on
+intent/risk/scope, pick a slice, implement conservatively, and verify with a
+reviewer subagent. Do not re-litigate the first-principles decision there; its
+output is the brief.
+
+```
+first-principles-skill          →          architecture-delegation-skill
+(decision: what & why)                    (execution: research → slice → implement → verify)
+       │                                          │
+       └─ user confirms the conclusion ──────────┘
+```
+
+When to hand off:
+- The conclusion is a **structural / architectural change** (refactor, module
+  split, boundary redesign, framework extraction) — hand off to
+  `architecture-delegation-skill`.
+- The conclusion is a **build-vs-buy or technology choice** with no code change
+  yet — no handoff needed; the decision is the deliverable.
+- The conclusion needs **implementation work** — hand off to the appropriate
+  execution skill (architecture-delegation for structural work; otherwise the
+  relevant build/test workflow).
+
+For any execution that touches code, the receiving skill should set up an
+isolated workspace via **`using-git-worktrees-skill`** before editing, so the
+current branch is protected and each phase can be committed cleanly.
 
 ## Anti-goals
 

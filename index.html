@@ -97,6 +97,13 @@
     <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/first-principles-skill">skills/first-principles-skill</a></p>
   </div>
 
+  <h2>architecture-delegation-skill <span class="tag">architecture</span><span class="tag">refactor</span></h2>
+  <div class="skill">
+    <p>Durable structural clarity via sub-agent delegation. The lead researches the codebase, grills the user on intent/risk/scope, picks a slice, implements conservatively, and verifies with a reviewer subagent. Not theoretical purity — code that is easier to navigate, change, test, and predict.</p>
+    <p class="desc">Owns the <em>how</em> of a structural change once <code>first-principles-skill</code> has confirmed the <em>what/why</em>. Delegation safety rails (commit every phase; tool-predicate acceptance; stop-and-ask in implementer prompts; pin target path; re-inject invariants), an Anti-Abstraction Checklist, and templates for sub-agent / implementer / reviewer handoffs. Sets up an isolated worktree via <code>using-git-worktrees-skill</code> before editing.</p>
+    <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/architecture-delegation-skill">skills/architecture-delegation-skill</a></p>
+  </div>
+
   <h2>using-git-worktrees-skill <span class="tag">workflow</span><span class="tag">git</span></h2>
   <div class="skill">
     <p>Create an isolated git worktree before feature work that needs isolation. Detects existing isolation first, prefers native harness tools, falls back to <code>git worktree add</code>.</p>
