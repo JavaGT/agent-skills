@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Skills — Grant</title>
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --ink: #2b2a27;
+    --muted: #6b6862;
+    --rule: #e3ddd0;
+    --accent: #7a6f5d;
+    --code-bg: #efece3;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+    padding: 2.5rem 1.2rem 6rem;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { margin-bottom: 2.5rem; }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.9rem;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+  }
+  .lede { color: var(--muted); margin: 0; max-width: 56ch; }
+  h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.25rem;
+    margin: 2.2rem 0 0.3rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.4rem;
+  }
+  .skill { margin: 1.4rem 0 0; padding-bottom: 1.2rem; }
+  .skill p { margin: 0.4rem 0 0; color: var(--ink); }
+  .skill .desc { color: var(--muted); }
+  .name { font-weight: 600; font-family: inherit; }
+  .meta { color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, pre {
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.86rem;
+    background: var(--code-bg);
+    border-radius: 4px;
+  }
+  code { padding: 0.1rem 0.32rem; }
+  pre {
+    padding: 0.8rem 0.9rem;
+    overflow-x: auto;
+    line-height: 1.5;
+    border: 1px solid var(--rule);
+  }
+  pre code { background: none; padding: 0; }
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.05rem 0.55rem;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  footer { margin-top: 3rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--rule); padding-top: 1.2rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Agent Skills</h1>
+    <p class="lede">A small collection of reusable agent skills for LLM coding harnesses (Claude Code, OpenCode, Cursor, Copilot CLI). Each is a self-contained directory you drop into your skills folder. Install with <code>git clone</code>.</p>
+  </header>
+
+  <h2>github-pages-porkbun-skill <span class="tag">deploy</span><span class="tag">dns</span><span class="tag">cert</span></h2>
+  <div class="skill">
+    <p>Deploy a static site to GitHub Pages with a custom domain, where DNS is managed by Porkbun — end to end, including the HTTPS certificate. Bakes in the non-obvious fix for the most common failure: the cert stays <code>null</code> forever because GitHub never starts ACME issuance until you clear and re-add the custom domain via the Pages API.</p>
+    <p class="desc">Includes helper scripts (<code>porkbun.py</code>, <code>pages.py</code>, <code>deploy.py</code>) and deep-dive references on the Porkbun API, the Pages cert lifecycle, and a troubleshooting decision tree.</p>
+    <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/github-pages-porkbun-skill">skills/github-pages-porkbun-skill</a></p>
+    <pre><code>git clone https://github.com/JavaGT/agent-skills ~/.config/opencode/skills/agent-skills-repo
+# then symlink or copy skills/github-pages-porkbun-skill into place</code></pre>
+  </div>
+
+  <h2>porkbun-dns <span class="tag">dns</span></h2>
+  <div class="skill">
+    <p>Generic DNS record management on Porkbun — create, list, delete, validate. Reads credentials from <code>~/.secrets/porkbun.env</code> (<code>PORKBUN_API_KEY</code> / <code>PORKBUN_SECRET_KEY</code>). Documents the <code>secretapikey</code> field-name gotcha that breaks most integrations.</p>
+    <p class="meta">Source: <a href="https://github.com/JavaGT/agent-skills/tree/main/skills/porkbun-dns">skills/porkbun-dns</a></p>
+  </div>
+
+  <h2>Installing</h2>
+  <p class="desc">Skills are plain directories with a <code>SKILL.md</code>. Clone the repo and point your harness at the skill you want:</p>
+  <pre><code># OpenCode / universal
+git clone https://github.com/JavaGT/agent-skills ~/.config/opencode/skills/agent-skills
+
+# Claude Code
+git clone https://github.com/JavaGT/agent-skills ~/.claude/skills/agent-skills
+
+# Cursor (project-local)
+git clone https://github.com/JavaGT/agent-skills .cursor/skills/agent-skills</code></pre>
+  <p class="desc">Each harness discovers skills differently; some read subdirectories directly, others expect a symlink. See your harness's docs.</p>
+
+  <h2>Credentials</h2>
+  <p class="desc">Skills that need secrets read them from <code>~/.secrets/*.env</code> (dotenv format, <code>chmod 600</code>), never from the repo. Putting them outside the project dir means applications don't auto-load them, and harnesses are more likely to prompt before reading.</p>
+  <pre><code>~/.secrets/porkbun.env
+PORKBUN_API_KEY=pk1_...
+PORKBUN_SECRET_KEY=sk1_...</code></pre>
+
+  <footer>
+    <p>Hosted at <a href="https://skills.javagrant.ac.nz">skills.javagrant.ac.nz</a> via GitHub Pages, deployed with this very skill. Source: <a href="https://github.com/JavaGT/agent-skills">JavaGT/agent-skills</a>.</p>
+  </footer>
+</div>
+</body>
+</html>
